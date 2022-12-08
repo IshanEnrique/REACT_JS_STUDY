@@ -15,3 +15,19 @@
 > Live Server  v5.7.9 
 
 > Thunder Client  v2.1.2 
+
+## Create first React App
+
+> Go to VS Code Terminal
+
+> Enter command to enter create your first app
+
+>> npx create-react-app my-app
+
+> Go to your app folder
+
+>> cd my-app
+
+> Start NPM
+
+>> npm start
