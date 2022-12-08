@@ -47,3 +47,8 @@ Navbar.propTypes = {
     })
   )
 }
+
+Navbar.defaultProps = {
+  title : "Your title",
+  navData : [{name:"Navbar Items",link:"#"}]
+}
