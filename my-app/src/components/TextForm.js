@@ -5,6 +5,7 @@ export default function TextForm(props) {
     let newText=document.getElementById("myText");
     newText.select();
     navigator.clipboard.writeText(newText.value);
+    props.showAlert("Text has been coppied !","success");
     
   }
 
@@ -12,6 +13,7 @@ export default function TextForm(props) {
     let newText=text.split(/[  ]+/);
     setText(newText.join(" "));
     navigator.clipboard.writeText(newText.value);
+    props.showAlert("Extra spaces have been removed !","success");
     
   }
  
@@ -19,12 +21,14 @@ export default function TextForm(props) {
     let newText=text.toUpperCase();
     setText(newText);
     setWordCount(text.split(" ").length);
+    props.showAlert("Text converted to Uppercase !","success");
   }
 
   const handleUpOnClickLower=()=>{
     let newText=text.toLowerCase();
     setText(newText);
     setWordCount(text.split(" ").length);
+    props.showAlert("Text converted to Lowercase !","success");
   }
   const handleOnChange=(event)=>{
     
