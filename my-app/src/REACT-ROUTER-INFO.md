@@ -47,4 +47,9 @@ import {
 ```
 
 
+## Take the guide from official doc
+
+> https://v5.reactrouter.com/web/guides/quick-start
+
+
 
