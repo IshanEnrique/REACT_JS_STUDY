@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 export default function Navbar(props) {
 
@@ -7,9 +8,11 @@ export default function Navbar(props) {
   const showThemes = props.modeColor.map((info) => {
     return (
       <li key={info.id}>
-           <button className="btn btn-primary mx-2" onClick={
+           <button className="btn btn-primary mx-2 my-1" onClick={
             ()=>{props.toggleMode(info.id)}
-            }>
+            }
+            style={{backgroundColor: info.btnBgColor , color: info.btnTextColor}}
+            >
               {info.dispName}
             </button> 
       </li>
@@ -23,9 +26,9 @@ export default function Navbar(props) {
         style={{backgroundColor: props.navBgColor }} 
       >
         <div className="container-fluid">
-          <a className={`navbar-brand text-${props.navText}`} href="/">
+          <Link className={`navbar-brand text-${props.navText}`} to="/">
             {props.nav.title}
-          </a>
+          </Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -42,12 +45,12 @@ export default function Navbar(props) {
               {props.nav.navData.map((element) => {
                 return (
                   <li className="nav-item" key={element.name}>
-                    <a
+                    <Link
                       className={`nav-link text-${props.navText}`}
-                      href={element.link}
+                      to={element.link}
                     >
                       {element.name}
-                    </a>
+                    </Link>
                   </li>
                 );
               })}

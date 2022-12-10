@@ -4,6 +4,6 @@
     "navData":[
         
         {"name":"Home","link":"/"},
-        {"name":"About Us","link":"/"}
+        {"name":"About Us","link":"/about"}
     ]
 }

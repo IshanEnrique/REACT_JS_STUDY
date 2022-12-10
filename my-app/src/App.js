@@ -8,6 +8,14 @@ import TextForm from "./components/TextForm";
 import navJson from "./resources/nav.json";
 import themeColor from "./resources/theme-color.json";
 
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes
+
+} from 'react-router-dom'
+
+
 function App() {
   const navElements = navJson;
   const [alert, setAlert] = useState(null);
@@ -42,6 +50,8 @@ function App() {
 
   return (
     <>
+      <Router>
+
       <Navbar
         showAlert={showAlert}
         nav={navElements}
@@ -52,14 +62,33 @@ function App() {
         navBgColor={navBgColor}
       />
       <Alert alert={alert} />
-      <TextForm
-        heading="Enter text to analyze below"
-        textAreaBgColor={textAreaBgColor}
-        textAreaColor={textAreaColor}
-        showAlert={showAlert}
-      />
 
-      {/* <About/> */}
+      <Routes>
+      
+        <Route exact path="/" 
+          
+          element={
+            <TextForm
+            heading="Enter text to analyze below"
+            textAreaBgColor={textAreaBgColor}
+            textAreaColor={textAreaColor}
+            showAlert={showAlert}
+          />
+          }
+        />
+
+        <Route exact path="/about"
+          element={
+
+            <About/>
+          }
+        />
+
+      
+
+        </Routes>
+
+      </Router>
     </>
   );
 }
