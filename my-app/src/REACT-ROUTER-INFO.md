@@ -35,11 +35,13 @@ import {
 ```sh
 
 > <Router>
-   <Route exact path="/about"
+    <Routes>
+        <Route exact path="/about"
           element={
             <About/>
           }
         />
+    </Routes>
 </Router>
 
 ```
