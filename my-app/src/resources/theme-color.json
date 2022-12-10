@@ -1,0 +1,33 @@
+[
+  {
+    "id":0,
+    "name":"dark",
+    "dispName":"Dark",
+    "color": "wheat",
+    "bgColor": "#1b1846",
+    "navBgColor":"rgb(4 30 50)",
+    "textAreaColor": "red",
+    "textAreaBgColor": "#1b1846"
+  },
+  {
+    "id":1,
+    "name":"light",
+    "dispName":"Light",
+    "color": "black",
+    "bgColor": "white",
+    "navBgColor":"#e3f2fd",
+    "textAreaColor": "red",
+    "textAreaBgColor": "rgb(255 255 255)"
+  },
+  {
+    "id":2,
+    "name":"green",
+    "dispName":"Green",
+    "color": "#0b2bab",
+    "bgColor": "rgb(24 209 129)",
+    "navBgColor":"rgb(2 97 42)",
+    "textAreaColor": "rgb(38 24 199)",
+    "textAreaBgColor": "rgb(104 209 148)"
+  }
+]
+

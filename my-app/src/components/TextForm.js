@@ -36,29 +36,48 @@ export default function TextForm(props) {
     setWordCount(text.split(" ").length);
   }
   
-  const [text,setText]=useState("Enter Text");
-  const [wordsCount,setWordCount]=useState(text.split(" ").length);
+  const [text,setText]=useState("");
+  const [wordsCount,setWordCount]=useState(text.length>0? text.split(" ").length:0);
   // setText("Enter Text Here");
   return (
     <>
-    <div className="container my-3">
+      <div className="container my-3">
         <h1>{props.heading}</h1>
         <div className="mb-3">
-        <label htmlFor="exampleFormControlTextarea1" className="form-label">Example textarea</label>
-        <textarea className="form-control" onChange={handleOnChange} value={text} id="myText" rows="6"></textarea>
+          <label htmlFor="exampleFormControlTextarea1" className="form-label">
+            Example textarea
+          </label>
+          <textarea
+            className="form-control"
+            onChange={handleOnChange}
+            value={text}
+            id="myText"
+            rows="6"
+            style={{backgroundColor: props.textAreaBgColor , color: props.textAreaColor}} 
+          ></textarea>
         </div>
-        <button className="btn btn-primary mx-2" onClick={handleUpOnClick}>To Uppercase</button>
-        <button className="btn btn-primary mx-2" onClick={handleUpOnClickLower}>To Lowercase</button>
-        <button className="btn btn-primary mx-2" onClick={handleCopy}>Copy Text</button>
-        <button className="btn btn-primary mx-2" onClick={removeExtraSpace}>Remove Extra Space</button>
-    </div>
-    <div className="container my-3">
-      <h1>Your Text Summary</h1>
-      <p>{wordsCount} words and {text.length} characters</p>
-      <p>Approx {0.008 * wordsCount} will it take to read the whold text.</p>
-      <h2>Preview</h2>
-      <p>{text}</p>
-    </div>
+        <button className="btn btn-primary mx-2" onClick={handleUpOnClick}>
+          To Uppercase
+        </button>
+        <button className="btn btn-primary mx-2" onClick={handleUpOnClickLower}>
+          To Lowercase
+        </button>
+        <button className="btn btn-primary mx-2" onClick={handleCopy}>
+          Copy Text
+        </button>
+        <button className="btn btn-primary mx-2" onClick={removeExtraSpace}>
+          Remove Extra Space
+        </button>
+      </div>
+      <div className="container my-3">
+        <h1>Your Text Summary</h1>
+        <p>
+          {wordsCount} words and {text.length} characters
+        </p>
+        <p>Approx {0.008 * wordsCount} will it take to read the whold text.</p>
+        <h2>Preview</h2>
+        <p>{text}</p>
+      </div>
     </>
-  )
+  );
 }
