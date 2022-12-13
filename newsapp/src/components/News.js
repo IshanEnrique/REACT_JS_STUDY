@@ -65,20 +65,53 @@ export class News extends Component {
     
     this.state={
         articles:this.articles,
-        loading:false
+        loading:false,
+        page:1,
+        pageSize:20,
+        totalRecords:20,
+        nextBtnEnable:true
     }
+}
+
+async fetchHeadlines(updatedPageNo){
+    console.log("Current requesting news page no : "+updatedPageNo);
+    let url=`https://newsapi.org/v2/top-headlines?country=in&apiKey=a675c1ea195f4eb9b5090a160af2ebbc&page=${updatedPageNo}&pageSize=${this.state.pageSize}`;
+    let data=await fetch(url);
+    let parsedData=await data.json();
+    this.setState({articles:parsedData.articles,totalRecords:parsedData.totalResults});
 }
 
 async componentDidMount(){
     
-    let url="https://newsapi.org/v2/top-headlines?country=us&apiKey=a675c1ea195f4eb9b5090a160af2ebbc";
-    let data=await fetch(url);
-    let parsedData=await data.json();
-    this.setState({articles:parsedData.articles});
-    
-
-
+    this.fetchHeadlines(this.state.page);  
 }
+
+handlePrevPage=()=>{
+    let previousPageNo=this.state.page;
+    if(previousPageNo>1){
+        let updatedPageNo=previousPageNo-1;
+    this.setState({page: updatedPageNo});
+    this.fetchHeadlines(updatedPageNo);
+    }
+}
+handleNextPage=()=>{
+    let previousPageNo=this.state.page;
+    let updatedPageNo=previousPageNo+1;
+    let pageSize=this.state.pageSize;
+    let totalRecords=this.state.totalRecords;
+    
+    if(Math.ceil(Math.ceil(totalRecords/pageSize)) >= updatedPageNo){
+        
+        this.setState({page:updatedPageNo});
+        this.fetchHeadlines(updatedPageNo);
+    }else{
+        this.setState({
+            nextBtnEnable:false
+        })
+        
+    }
+}
+
   render() {
     
     return (
@@ -103,6 +136,12 @@ async componentDidMount(){
         )}
           
           
+        </div>
+
+
+        <div className="container d-flex justify-content-evenly">
+            <button disabled={this.state.page<=1} type="button" className="btn btn-dark" onClick={this.handlePrevPage} >&larr; Previous</button>
+            <button type="button" disabled={! this.state.nextBtnEnable} className="btn btn-dark"  onClick={this.handleNextPage} >Next &rarr;</button>
         </div>
       </div>
     );
