@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 
 export default function TextForm(props) {
   const [text,setText]=useState("");
-  const [wordsCount,setWordCount]=useState( text.split(" ").filter((element)=>{return element.length!==0}).length);
+  const [wordsCount,setWordCount]=useState( text.split(/\s+/).filter((element)=>{return element.length!==0}).length);
   const [actionsDisaled,setActionsDisaled]=useState(text.length===0);
 const clearText=()=>{
   setText("");
@@ -33,7 +33,7 @@ const clearText=()=>{
   const handleUpOnClick=()=>{
     let newText=text.toUpperCase();
     setText(newText);
-    setWordCount( text.split(" ").filter((element)=>{return element.length!==0}).length);
+    setWordCount( text.split(/\s+/).filter((element)=>{return element.length!==0}).length);
     setActionsDisaled(text.length===0);
     props.showAlert("Text converted to Uppercase !","success");
   }
@@ -41,14 +41,14 @@ const clearText=()=>{
   const handleUpOnClickLower=()=>{
     let newText=text.toLowerCase();
     setText(newText);
-    setWordCount( text.split(" ").filter((element)=>{return element.length!==0}).length);
+    setWordCount( text.split(/\s+/).filter((element)=>{return element.length!==0}).length);
     setActionsDisaled(text.length===0);
     props.showAlert("Text converted to Lowercase !","success");
   }
   const handleOnChange=(event)=>{
     
     setText(event.target.value);
-    setWordCount( text.split(" ").filter((element)=>{return element.length!==0}).length);
+    setWordCount( text.split(/\s+/).filter((element)=>{return element.length!==0}).length);
     setActionsDisaled(text.length===0);
   }
   
