@@ -1,6 +1,6 @@
 {
   "name": "my-app",
-  "homepage": "http://textutils.bharatkadam.com",
+  "homepage": "https://mytextutils.bharatkadam.com",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
