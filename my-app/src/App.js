@@ -69,7 +69,7 @@ function App() {
           
           element={
             <TextForm
-            heading="Enter text to analyze below"
+            heading="Try TextUtils - Word Counter, Text Counter, Remove Extra Spaces"
             textAreaBgColor={textAreaBgColor}
             textAreaColor={textAreaColor}
             showAlert={showAlert}

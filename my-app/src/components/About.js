@@ -8,25 +8,25 @@ export default function About() {
         backgroundColor:'black'
     })
 
-    const [btnName,setBtnName]=useState("Enable Dark Mode");
+    // const [btnName,setBtnName]=useState("Enable Dark Mode");
 
-    const toggleDarkMode=()=>{
-        if(myStyle.color==='white'){
-            setMyStyle({
-                color:'black',
-                backgroundColor:'white'
-            });
-            setBtnName("Enable Dark Mode");
-        }else{
-            setMyStyle({
-                color:'white',
-                backgroundColor:'black'
+    // const toggleDarkMode=()=>{
+    //     if(myStyle.color==='white'){
+    //         setMyStyle({
+    //             color:'black',
+    //             backgroundColor:'white'
+    //         });
+    //         setBtnName("Enable Dark Mode");
+    //     }else{
+    //         setMyStyle({
+    //             color:'white',
+    //             backgroundColor:'black'
                 
-            });
-            setBtnName("Disable Dark Mode");
+    //         });
+    //         setBtnName("Disable Dark Mode");
 
-        }
-    }
+    //     }
+    // }
 
     
   return (
@@ -69,10 +69,10 @@ export default function About() {
             </div>
         </div>
         </div>
-        <div className="container my-3">
+        {/* <div className="container my-3">
             <button onClick={toggleDarkMode} className="btn btn-primary">{btnName}</button>
 
-        </div>
+        </div> */}
     </div>
   )
 }
