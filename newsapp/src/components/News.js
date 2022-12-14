@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Loader from "./Loader";
 import NewsItem from "./NewsItem";
+import PropTypes from "prop-types";
 
 export class News extends Component {
   articles = [
@@ -60,6 +61,15 @@ export class News extends Component {
     },
   ];
 
+  static defaultProps = {
+    newsApi: {
+     
+    },
+    category:'general'
+  };
+
+ 
+
   constructor() {
     super();
 
@@ -74,12 +84,13 @@ export class News extends Component {
   }
 
   async fetchHeadlines(updatedPageNo) {
-    console.log("Current requesting news page no : " + updatedPageNo);
-    let url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=a675c1ea195f4eb9b5090a160af2ebbc&page=${updatedPageNo}&pageSize=${this.props.pageSize}`;
+    
+    let url = `${this.props.newsApi.baseUrl}${this.props.newsApi.apiVersion}${this.props.newsApi.newsType}country=${this.props.newsApi.country}&category=${this.props.category}&apiKey=${this.props.newsApi.apiToken}&page=${updatedPageNo}&pageSize=${this.props.newsApi.pageSize}`;
+    console.log("URL : " + url);
     this.setState({loading:true});
     let data=await fetch(url);
     let parsedData=await data.json();
-    this.setState({articles:parsedData.articles,totalRecords:parsedData.totalResults,pageSize:this.props.pageSize,loading:false});
+    this.setState({articles:parsedData.articles,totalRecords:parsedData.totalResults,pageSize:this.props.newsApi.pageSize,loading:false});
   }
 
   async componentDidMount() {
@@ -99,11 +110,13 @@ export class News extends Component {
     let updatedPageNo = previousPageNo + 1;
     let pageSize = this.state.pageSize;
     let totalRecords = this.state.totalRecords;
-
-    if (Math.ceil(Math.ceil(totalRecords / pageSize)) >= updatedPageNo) {
+    console.log(pageSize+ " , Next Page clicked > Ceild : "+(Math.ceil(totalRecords / pageSize))+"  , updated page : "+updatedPageNo)
+    if ( updatedPageNo <= Math.ceil(totalRecords / pageSize)) {
+      console.log("if condition")
       this.setState({ page: updatedPageNo });
       this.fetchHeadlines(updatedPageNo);
     } else {
+      console.log("else condition")
       this.setState({
         nextBtnEnable: false,
       });
@@ -114,13 +127,10 @@ export class News extends Component {
     return (
       <div className="container my-4">
         <div className="row">
-          <div className="col-md-6" style={{marginTop:'33px'}}>
-           
+          <div className="col-md-6" style={{ marginTop: "33px" }}>
             <h2>NewsTota Top Headlines</h2>
           </div>
-          <div className="col-md-6">
-           { this.state.loading && <Loader />}
-          </div>
+          <div className="col-md-6">{this.state.loading && <Loader />}</div>
         </div>
 
         <div className="row">
@@ -140,6 +150,9 @@ export class News extends Component {
                   }
                   imageUrl={element.urlToImage}
                   newsUrl={element.url}
+                  author={element.author}
+                  publishedAt={element.publishedAt}
+                  sources={element.source.name}
                 />
               </div>
             );
