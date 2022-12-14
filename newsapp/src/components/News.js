@@ -1,6 +1,6 @@
 import React, { Component } from "react";
+import Loader from "./Loader";
 import NewsItem from "./NewsItem";
-
 
 export class News extends Component {
   articles = [
@@ -60,88 +60,112 @@ export class News extends Component {
     },
   ];
 
-  constructor(){
+  constructor() {
     super();
-    
-    this.state={
-        articles:this.articles,
-        loading:false,
-        page:1,
-        pageSize:20,
-        totalRecords:20,
-        nextBtnEnable:true
-    }
-}
 
-async fetchHeadlines(updatedPageNo){
-    console.log("Current requesting news page no : "+updatedPageNo);
-    let url=`https://newsapi.org/v2/top-headlines?country=in&apiKey=a675c1ea195f4eb9b5090a160af2ebbc&page=${updatedPageNo}&pageSize=${this.state.pageSize}`;
+    this.state = {
+      articles: this.articles,
+      loading: false,
+      page: 1,
+      pageSize: 20,
+      totalRecords: 20,
+      nextBtnEnable: true,
+    };
+  }
+
+  async fetchHeadlines(updatedPageNo) {
+    console.log("Current requesting news page no : " + updatedPageNo);
+    let url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=a675c1ea195f4eb9b5090a160af2ebbc&page=${updatedPageNo}&pageSize=${this.props.pageSize}`;
+    this.setState({loading:true});
     let data=await fetch(url);
     let parsedData=await data.json();
-    this.setState({articles:parsedData.articles,totalRecords:parsedData.totalResults});
-}
+    this.setState({articles:parsedData.articles,totalRecords:parsedData.totalResults,pageSize:this.props.pageSize,loading:false});
+  }
 
-async componentDidMount(){
-    
-    this.fetchHeadlines(this.state.page);  
-}
+  async componentDidMount() {
+    this.fetchHeadlines(this.state.page);
+  }
 
-handlePrevPage=()=>{
-    let previousPageNo=this.state.page;
-    if(previousPageNo>1){
-        let updatedPageNo=previousPageNo-1;
-    this.setState({page: updatedPageNo});
-    this.fetchHeadlines(updatedPageNo);
+  handlePrevPage = () => {
+    let previousPageNo = this.state.page;
+    if (previousPageNo > 1) {
+      let updatedPageNo = previousPageNo - 1;
+      this.setState({ page: updatedPageNo });
+      this.fetchHeadlines(updatedPageNo);
     }
-}
-handleNextPage=()=>{
-    let previousPageNo=this.state.page;
-    let updatedPageNo=previousPageNo+1;
-    let pageSize=this.state.pageSize;
-    let totalRecords=this.state.totalRecords;
-    
-    if(Math.ceil(Math.ceil(totalRecords/pageSize)) >= updatedPageNo){
-        
-        this.setState({page:updatedPageNo});
-        this.fetchHeadlines(updatedPageNo);
-    }else{
-        this.setState({
-            nextBtnEnable:false
-        })
-        
+  };
+  handleNextPage = () => {
+    let previousPageNo = this.state.page;
+    let updatedPageNo = previousPageNo + 1;
+    let pageSize = this.state.pageSize;
+    let totalRecords = this.state.totalRecords;
+
+    if (Math.ceil(Math.ceil(totalRecords / pageSize)) >= updatedPageNo) {
+      this.setState({ page: updatedPageNo });
+      this.fetchHeadlines(updatedPageNo);
+    } else {
+      this.setState({
+        nextBtnEnable: false,
+      });
     }
-}
+  };
 
   render() {
-    
     return (
       <div className="container my-4">
-        <h2>NewsTota Top Headlines</h2>
-
-        
         <div className="row">
-        {this.state.articles.map(
-            (element)=>{
-                
-             return (  <div className="col-md-4" key={element.url}>
-                    <NewsItem
-                    title={element.title? element.title.slice(0,45):"No Title Available..."}
-                    description={element.description? element.description.slice(0,88):"No description to read..."}
-                    imageUrl={element.urlToImage}
-                    newsUrl={element.url}
-                    />
-                </div>
-        );
-            }
-        )}
-          
-          
+          <div className="col-md-6" style={{marginTop:'33px'}}>
+           
+            <h2>NewsTota Top Headlines</h2>
+          </div>
+          <div className="col-md-6">
+           { this.state.loading && <Loader />}
+          </div>
         </div>
 
+        <div className="row">
+          {this.state.articles.map((element) => {
+            return (
+              <div className="col-md-4" key={element.url}>
+                <NewsItem
+                  title={
+                    element.title
+                      ? element.title.slice(0, 45)
+                      : "No Title Available..."
+                  }
+                  description={
+                    element.description
+                      ? element.description.slice(0, 88)
+                      : "No description to read..."
+                  }
+                  imageUrl={element.urlToImage}
+                  newsUrl={element.url}
+                />
+              </div>
+            );
+          })}
+        </div>
 
         <div className="container d-flex justify-content-evenly">
-            <button disabled={this.state.page<=1} type="button" className="btn btn-dark" onClick={this.handlePrevPage} >&larr; Previous</button>
-            <button type="button" disabled={! this.state.nextBtnEnable} className="btn btn-dark"  onClick={this.handleNextPage} >Next &rarr;</button>
+          <button
+            disabled={this.state.page <= 1}
+            type="button"
+            className="btn btn-dark"
+            onClick={this.handlePrevPage}
+          >
+            &larr; Previous
+          </button>
+          <button
+            type="button"
+            disabled={
+              Math.ceil(this.state.totalRecords / this.state.pageSize) <
+              this.state.page + 1
+            }
+            className="btn btn-dark"
+            onClick={this.handleNextPage}
+          >
+            Next &rarr;
+          </button>
         </div>
       </div>
     );
