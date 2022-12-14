@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Loader from "./Loader";
 import NewsItem from "./NewsItem";
-import PropTypes from "prop-types";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export class News extends Component {
   articles = [
@@ -62,13 +62,9 @@ export class News extends Component {
   ];
 
   static defaultProps = {
-    newsApi: {
-     
-    },
-    category:'general'
+    newsApi: {},
+    category: "general",
   };
-
- 
 
   constructor() {
     super();
@@ -84,13 +80,23 @@ export class News extends Component {
   }
 
   async fetchHeadlines(updatedPageNo) {
-    
+    debugger;
     let url = `${this.props.newsApi.baseUrl}${this.props.newsApi.apiVersion}${this.props.newsApi.newsType}country=${this.props.newsApi.country}&category=${this.props.category}&apiKey=${this.props.newsApi.apiToken}&page=${updatedPageNo}&pageSize=${this.props.newsApi.pageSize}`;
     console.log("URL : " + url);
-    this.setState({loading:true});
-    let data=await fetch(url);
-    let parsedData=await data.json();
-    this.setState({articles:parsedData.articles,totalRecords:parsedData.totalResults,pageSize:this.props.newsApi.pageSize,loading:false});
+    // this.setState({ loading: true });
+    // let data = await fetch(url);
+    // if (data.ok) {
+    //   console.log("DATA WHEN API FAILS : " + data);
+    //   let parsedData = await data.json();
+    //   this.setState({
+    //     articles: parsedData.articles,
+    //     totalRecords: parsedData.totalResults,
+    //     pageSize: this.props.newsApi.pageSize,
+    //     loading: false,
+    //   });
+    // }else{
+    //   this.setState({ loading: false });
+    // }
   }
 
   async componentDidMount() {
@@ -110,77 +116,94 @@ export class News extends Component {
     let updatedPageNo = previousPageNo + 1;
     let pageSize = this.state.pageSize;
     let totalRecords = this.state.totalRecords;
-    console.log(pageSize+ " , Next Page clicked > Ceild : "+(Math.ceil(totalRecords / pageSize))+"  , updated page : "+updatedPageNo)
-    if ( updatedPageNo <= Math.ceil(totalRecords / pageSize)) {
-      console.log("if condition")
+    console.log(
+      pageSize +
+        " , Next Page clicked > Ceild : " +
+        Math.ceil(totalRecords / pageSize) +
+        "  , updated page : " +
+        updatedPageNo
+    );
+    if (updatedPageNo <= Math.ceil(totalRecords / pageSize)) {
+      console.log("if condition");
       this.setState({ page: updatedPageNo });
       this.fetchHeadlines(updatedPageNo);
     } else {
-      console.log("else condition")
+      console.log("else condition");
       this.setState({
         nextBtnEnable: false,
       });
     }
   };
 
+  fetchMoreData = async () => {
+    let previousPageNo = this.state.page;
+    let updatedPageNo = previousPageNo + 1;
+    let pageSize = this.state.pageSize;
+    let totalRecords = this.state.totalRecords;
+    console.log("Infinite Scroll ");
+    if (updatedPageNo <= Math.ceil(totalRecords / pageSize)) {
+      console.log("if condition");
+      this.setState({ page: updatedPageNo });
+      this.fetchHeadlines(updatedPageNo);
+
+      let url = `${this.props.newsApi.baseUrl}${this.props.newsApi.apiVersion}${this.props.newsApi.newsType}country=${this.props.newsApi.country}&category=${this.props.category}&apiKey=${this.props.newsApi.apiToken}&page=${updatedPageNo}&pageSize=${this.props.newsApi.pageSize}`;
+      console.log("URL : " + url);
+      // this.setState({ loading: true });
+      // let data = await fetch(url);
+      // if (data.ok) {
+      //   let parsedData = await data.json();
+      //   this.setState({
+      //     articles: this.state.articles.concat(parsedData.articles),
+      //     totalRecords: parsedData.totalResults,
+      //     pageSize: this.props.newsApi.pageSize,
+      //     loading: false,
+      //   });
+      // }else{
+      //   this.setState({ loading: false });
+      // }
+    }
+  };
+
   render() {
     return (
-      <div className="container my-4">
-        <div className="row">
-          <div className="col-md-6" style={{ marginTop: "33px" }}>
-            <h2>NewsTota Top Headlines</h2>
+      <>
+        <h2 style={{ marginTop: "33px" }}>NewsTota Top Headlines</h2>
+
+        <InfiniteScroll
+          dataLength={this.state.articles.length}
+          next={this.fetchMoreData}
+          hasMore={this.articles.length !== this.state.totalRecords}
+          loader={this.state.loading && <h1>Loading...</h1>}
+        >
+          <div className="container">
+            <div className="row">
+              {this.state.articles.map((element) => {
+                return (
+                  <div className="col-md-4" key={element.url}>
+                    <NewsItem
+                      title={
+                        element.title
+                          ? element.title.slice(0, 45)
+                          : "No Title Available..."
+                      }
+                      description={
+                        element.description
+                          ? element.description.slice(0, 88)
+                          : "No description to read..."
+                      }
+                      imageUrl={element.urlToImage}
+                      newsUrl={element.url}
+                      author={element.author}
+                      publishedAt={element.publishedAt}
+                      sources={element.source.name}
+                    />
+                  </div>
+                );
+              })}
+            </div>
           </div>
-          <div className="col-md-6">{this.state.loading && <Loader />}</div>
-        </div>
-
-        <div className="row">
-          {this.state.articles.map((element) => {
-            return (
-              <div className="col-md-4" key={element.url}>
-                <NewsItem
-                  title={
-                    element.title
-                      ? element.title.slice(0, 45)
-                      : "No Title Available..."
-                  }
-                  description={
-                    element.description
-                      ? element.description.slice(0, 88)
-                      : "No description to read..."
-                  }
-                  imageUrl={element.urlToImage}
-                  newsUrl={element.url}
-                  author={element.author}
-                  publishedAt={element.publishedAt}
-                  sources={element.source.name}
-                />
-              </div>
-            );
-          })}
-        </div>
-
-        <div className="container d-flex justify-content-evenly">
-          <button
-            disabled={this.state.page <= 1}
-            type="button"
-            className="btn btn-dark"
-            onClick={this.handlePrevPage}
-          >
-            &larr; Previous
-          </button>
-          <button
-            type="button"
-            disabled={
-              Math.ceil(this.state.totalRecords / this.state.pageSize) <
-              this.state.page + 1
-            }
-            className="btn btn-dark"
-            onClick={this.handleNextPage}
-          >
-            Next &rarr;
-          </button>
-        </div>
-      </div>
+        </InfiniteScroll>
+      </>
     );
   }
 }

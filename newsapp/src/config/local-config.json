@@ -3,7 +3,7 @@
         "baseUrl":"https://newsapi.org/",
         "apiVersion":"v2",
         "newsType":"/top-headlines?",
-        "pageSize":3,
+        "pageSize":20,
         "categories":["business", "entertainment", "general" ,"health" , "science" , "sports" ,  "technology"],
         "country":"in",
         "apiToken":"a675c1ea195f4eb9b5090a160af2ebbc"
