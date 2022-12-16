@@ -10,6 +10,9 @@ import LoadingBar from "react-top-loading-bar";
 export default class App extends Component {
   newsApi = config.newsApi;
 
+  componentDidMount(){
+        this.newsApi.apiToken=process.env.REACT_APP_NEWS_API_KEY;    
+  }
   state={
     progress:0
   }
