@@ -171,7 +171,7 @@ const News = (props) => {
 
   return (
     <>
-      <h2 style={{ marginTop: "33px" }}>NewsTota Top Headlines</h2>
+      <h2 style={{ marginTop: "74px",textAlign:'center' }}>NewsTota Top Headlines</h2>
 
       <InfiniteScroll
         dataLength={ articles.length}
