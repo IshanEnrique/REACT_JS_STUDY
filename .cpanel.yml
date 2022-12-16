@@ -1,7 +1,0 @@
----
-deployment:
-  tasks:
-    - export DEPLOYPATH=/home2/bhara2dt/newstota/
-    - /bin/cp -R * $DEPLOYPATH
-
-    
