@@ -1,34 +1,33 @@
 import "./App.css";
 
-import React, { Component } from "react";
+import React, { useState,useEffect } from "react";
 import NavBar from "./components/NavBar";
 import News from "./components/News";
 import config from "./config/local-config.json";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoadingBar from "react-top-loading-bar";
 
-export default class App extends Component {
-  newsApi = config.newsApi;
+function App() {
+  const [newsApi, setNewsApi] = useState(config.newsApi);
 
-  componentDidMount(){
-        this.newsApi.apiToken=process.env.REACT_APP_NEWS_API_KEY;    
-  }
-  state={
-    progress:0
-  }
+  config.newsApi.apiToken=process.env.REACT_APP_NEWS_API_KEY;
 
-  setProgress=(progress)=>{
-    
-    this.setState({progress:progress})
+  useEffect(() => {    
+  }, []);
+
+  const [progress, setProgress] = useState(0);
+
+const  setProgressBar=(progress1)=>{
+    setProgress(progress1);
   }
-  render() {
+  
     return (
       <div>
         <Router>
           <LoadingBar
             color="red"
             height={2.5}
-            progress={this.state.progress}
+            progress={progress}
             
           />
           <NavBar />
@@ -36,16 +35,16 @@ export default class App extends Component {
             <Route
               exact
               path="/"
-              element={<News setProgress={this.setProgress}  newsApi={this.newsApi} category={"general"} />}
+              element={<News setProgress={ setProgressBar}  newsApi={ newsApi} category={"general"} />}
             />
 
             <Route
               exact
               path="/business"
               element={
-                <News setProgress={this.setProgress} 
+                <News setProgress={ setProgressBar} 
                   key="business"
-                  newsApi={this.newsApi}
+                  newsApi={ newsApi}
                   category={"business"}
                 />
               }
@@ -54,9 +53,9 @@ export default class App extends Component {
               exact
               path="/entertainment"
               element={
-                <News setProgress={this.setProgress} 
+                <News setProgress={ setProgressBar} 
                   key="entertainment"
-                  newsApi={this.newsApi}
+                  newsApi={ newsApi}
                   category={"entertainment"}
                 />
               }
@@ -65,9 +64,9 @@ export default class App extends Component {
               exact
               path="/general"
               element={
-                <News setProgress={this.setProgress} 
+                <News setProgress={ setProgressBar} 
                   key="general"
-                  newsApi={this.newsApi}
+                  newsApi={ newsApi}
                   category={"general"}
                 />
               }
@@ -76,16 +75,16 @@ export default class App extends Component {
               exact
               path="/health"
               element={
-                <News setProgress={this.setProgress}  key="health" newsApi={this.newsApi} category={"health"} />
+                <News setProgress={ setProgressBar}  key="health" newsApi={ newsApi} category={"health"} />
               }
             />
             <Route
               exact
               path="/science"
               element={
-                <News setProgress={this.setProgress} 
+                <News setProgress={ setProgressBar} 
                   key="science"
-                  newsApi={this.newsApi}
+                  newsApi={ newsApi}
                   category={"science"}
                 />
               }
@@ -94,16 +93,16 @@ export default class App extends Component {
               exact
               path="/sports"
               element={
-                <News setProgress={this.setProgress}  key="sports" newsApi={this.newsApi} category={"sports"} />
+                <News setProgress={ setProgressBar}  key="sports" newsApi={ newsApi} category={"sports"} />
               }
             />
             <Route
               exact
               path="/technology"
               element={
-                <News setProgress={this.setProgress} 
+                <News setProgress={ setProgressBar} 
                   key="technology"
-                  newsApi={this.newsApi}
+                  newsApi={ newsApi}
                   category={"technology"}
                 />
               }
@@ -112,5 +111,8 @@ export default class App extends Component {
         </Router>
       </div>
     );
-  }
+  
 }
+
+
+export default App;

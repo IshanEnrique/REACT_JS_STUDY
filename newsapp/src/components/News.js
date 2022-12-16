@@ -1,10 +1,9 @@
-import React, { Component } from "react";
-import Loader from "./Loader";
+import React, { useState, useEffect } from "react";
 import NewsItem from "./NewsItem";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-export class News extends Component {
-  articles = [
+const News = (props) => {
+ let articlesSample = [
     {
       source: { id: "bbc-sport", name: "BBC Sport" },
       author: null,
@@ -61,68 +60,61 @@ export class News extends Component {
     },
   ];
 
-  static defaultProps = {
-    newsApi: {},
-    category: "general",
-  };
+  const [articles, setArticles] = useState(articlesSample);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(20);
+  const [totalRecords, setTotalRecords] = useState(20);
+  // const [nextBtnEnable, setNextBtnEnable] = useState(true);
 
-  constructor() {
-    super();
-
-    this.state = {
-      articles: this.articles,
-      loading: false,
-      page: 1,
-      pageSize: 20,
-      totalRecords: 20,
-      nextBtnEnable: true,
-    };
-  }
-
-  async fetchHeadlines(updatedPageNo) {
-    debugger;
-    let url = `${this.props.newsApi.baseUrl}${this.props.newsApi.apiVersion}${this.props.newsApi.newsType}country=${this.props.newsApi.country}&category=${this.props.category}&apiKey=${this.props.newsApi.apiToken}&page=${updatedPageNo}&pageSize=${this.props.newsApi.pageSize}`;
+  const fetchHeadlines = async (updatedPageNo) => {
+    
+    let url = `${props.newsApi.baseUrl}${props.newsApi.apiVersion}${props.newsApi.newsType}country=${props.newsApi.country}&category=${props.category}&apiKey=${props.newsApi.apiToken}&page=${updatedPageNo}&pageSize=${props.newsApi.pageSize}`;
     console.log("URL : " + url);
-    this.props.setProgress(10);
-    if (this.props.newsApi.triggerApi) {
-      this.setState({ loading: true });
-      this.props.setProgress(15);
+    props.setProgress(10);
+    if (props.newsApi.triggerApi) {
+      
+      setLoading(true);
+      props.setProgress(15);
       let data = await fetch(url);
-      this.props.setProgress(50);
+      props.setProgress(50);
       if (data.ok) {
         console.log("DATA WHEN API FAILS : " + data);
-        this.props.setProgress(75);
+        props.setProgress(75);
         let parsedData = await data.json();
-        this.setState({
-          articles: parsedData.articles,
-          totalRecords: parsedData.totalResults,
-          pageSize: this.props.newsApi.pageSize,
-          loading: false,
-        });
+        setArticles(parsedData.articles);
+        setTotalRecords(parsedData.totalResults);
+        setPageSize(props.newsApi.pageSize);
+        setLoading(false);
+        
       } else {
-        this.setState({ loading: false });
+        setLoading(false);
+        
       }
     }
-    this.props.setProgress(100);
-  }
+    props.setProgress(100);
+  };
 
-  async componentDidMount() {
-    this.fetchHeadlines(this.state.page);
-  }
+ useEffect(() => {
+   fetchHeadlines( page);
+  
+ }, [])
 
-  handlePrevPage = () => {
-    let previousPageNo = this.state.page;
+ 
+  const handlePrevPage = () => {
+    let previousPageNo =  page;
     if (previousPageNo > 1) {
       let updatedPageNo = previousPageNo - 1;
-      this.setState({ page: updatedPageNo });
-      this.fetchHeadlines(updatedPageNo);
+      
+      setPage(updatedPageNo)
+      fetchHeadlines(updatedPageNo);
     }
   };
-  handleNextPage = () => {
-    let previousPageNo = this.state.page;
+  const  handleNextPage = () => {
+    let previousPageNo =  page;
     let updatedPageNo = previousPageNo + 1;
-    let pageSize = this.state.pageSize;
-    let totalRecords = this.state.totalRecords;
+    // let pageSize =  pageSize;
+    // let totalRecords =  totalRecords;
     console.log(
       pageSize +
         " , Next Page clicked > Ceild : " +
@@ -132,94 +124,95 @@ export class News extends Component {
     );
     if (updatedPageNo <= Math.ceil(totalRecords / pageSize)) {
       console.log("if condition");
-      this.setState({ page: updatedPageNo });
-      this.fetchHeadlines(updatedPageNo);
+      
+      setPage(updatedPageNo);
+      fetchHeadlines(updatedPageNo);
     } else {
       console.log("else condition");
-      this.setState({
-        nextBtnEnable: false,
-      });
+      // setNextBtnEnable(false);
     }
   };
 
-  fetchMoreData = async () => {
-    let previousPageNo = this.state.page;
+  const  fetchMoreData = async () => {
+    let previousPageNo =  page;
     let updatedPageNo = previousPageNo + 1;
-    let pageSize = this.state.pageSize;
-    let totalRecords = this.state.totalRecords;
-    console.log("Infinite Scroll ");
+    // let pageSize =  pageSize;
+    // let totalRecords =  totalRecords;
+    
     if (updatedPageNo <= Math.ceil(totalRecords / pageSize)) {
-      console.log("if condition");
-      this.setState({ page: updatedPageNo });
-      this.fetchHeadlines(updatedPageNo);
+      
+      
+      setPage(updatedPageNo);
+      fetchHeadlines(updatedPageNo);
 
-      let url = `${this.props.newsApi.baseUrl}${this.props.newsApi.apiVersion}${this.props.newsApi.newsType}country=${this.props.newsApi.country}&category=${this.props.category}&apiKey=${this.props.newsApi.apiToken}&page=${updatedPageNo}&pageSize=${this.props.newsApi.pageSize}`;
+      let url = `${props.newsApi.baseUrl}${props.newsApi.apiVersion}${props.newsApi.newsType}country=${props.newsApi.country}&category=${props.category}&apiKey=${props.newsApi.apiToken}&page=${updatedPageNo}&pageSize=${props.newsApi.pageSize}`;
       console.log("URL : " + url);
-      this.props.setProgress(10);
-      if (this.props.newsApi.triggerApi) {
-        this.setState({ loading: true });
-        this.props.setProgress(15);
+      props.setProgress(10);
+      if (props.newsApi.triggerApi) {
+        setLoading(true);
+        props.setProgress(15);
         let data = await fetch(url);
-        this.props.setProgress(50);
+        props.setProgress(50);
         if (data.ok) {
           let parsedData = await data.json();
-          this.props.setProgress(75);
-          this.setState({
-            articles: this.state.articles.concat(parsedData.articles),
-            totalRecords: parsedData.totalResults,
-            pageSize: this.props.newsApi.pageSize,
-            loading: false,
-          });
+          props.setProgress(75);
+          setArticles( articles.concat(parsedData.articles));
+          setTotalRecords(parsedData.totalResults);
+          setPageSize(props.newsApi.pageSize);
+          setLoading(false);
         } else {
-          this.setState({ loading: false });
+          
+          setLoading(false)
         }
       }
-      this.props.setProgress(100);
+      props.setProgress(100);
     }
   };
 
-  render() {
-    return (
-      <>
-        <h2 style={{ marginTop: "33px" }}>NewsTota Top Headlines</h2>
+  return (
+    <>
+      <h2 style={{ marginTop: "33px" }}>NewsTota Top Headlines</h2>
 
-        <InfiniteScroll
-          dataLength={this.state.articles.length}
-          next={this.fetchMoreData}
-          hasMore={this.articles.length !== this.state.totalRecords}
-          loader={this.state.loading && <h1>Loading...</h1>}
-        >
-          <div className="container">
-            <div className="row">
-              {this.state.articles.map((element) => {
-                return (
-                  <div className="col-md-4" key={element.url}>
-                    <NewsItem
-                      title={
-                        element.title
-                          ? element.title.slice(0, 45)
-                          : "No Title Available..."
-                      }
-                      description={
-                        element.description
-                          ? element.description.slice(0, 88)
-                          : "No description to read..."
-                      }
-                      imageUrl={element.urlToImage}
-                      newsUrl={element.url}
-                      author={element.author}
-                      publishedAt={element.publishedAt}
-                      sources={element.source.name}
-                    />
-                  </div>
-                );
-              })}
-            </div>
+      <InfiniteScroll
+        dataLength={ articles.length}
+        next={fetchMoreData}
+        hasMore={articles.length !==  totalRecords}
+        loader={ loading && <h1>Loading...</h1>}
+      >
+        <div className="container">
+          <div className="row">
+            { articles.map((element) => {
+              return (
+                <div className="col-md-4" key={element.url}>
+                  <NewsItem
+                    title={
+                      element.title
+                        ? element.title.slice(0, 45)
+                        : "No Title Available..."
+                    }
+                    description={
+                      element.description
+                        ? element.description.slice(0, 88)
+                        : "No description to read..."
+                    }
+                    imageUrl={element.urlToImage}
+                    newsUrl={element.url}
+                    author={element.author}
+                    publishedAt={element.publishedAt}
+                    sources={element.source.name}
+                  />
+                </div>
+              );
+            })}
           </div>
-        </InfiniteScroll>
-      </>
-    );
-  }
-}
+        </div>
+      </InfiniteScroll>
+    </>
+  );
+};
 
+News.defaultProps = {
+  newsApi: {},
+  category: "general",
+};
 export default News;
