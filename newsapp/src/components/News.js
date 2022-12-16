@@ -83,20 +83,27 @@ export class News extends Component {
     debugger;
     let url = `${this.props.newsApi.baseUrl}${this.props.newsApi.apiVersion}${this.props.newsApi.newsType}country=${this.props.newsApi.country}&category=${this.props.category}&apiKey=${this.props.newsApi.apiToken}&page=${updatedPageNo}&pageSize=${this.props.newsApi.pageSize}`;
     console.log("URL : " + url);
-    // this.setState({ loading: true });
-    // let data = await fetch(url);
-    // if (data.ok) {
-    //   console.log("DATA WHEN API FAILS : " + data);
-    //   let parsedData = await data.json();
-    //   this.setState({
-    //     articles: parsedData.articles,
-    //     totalRecords: parsedData.totalResults,
-    //     pageSize: this.props.newsApi.pageSize,
-    //     loading: false,
-    //   });
-    // }else{
-    //   this.setState({ loading: false });
-    // }
+    this.props.setProgress(10);
+    if (this.props.newsApi.triggerApi) {
+      this.setState({ loading: true });
+      this.props.setProgress(15);
+      let data = await fetch(url);
+      this.props.setProgress(50);
+      if (data.ok) {
+        console.log("DATA WHEN API FAILS : " + data);
+        this.props.setProgress(75);
+        let parsedData = await data.json();
+        this.setState({
+          articles: parsedData.articles,
+          totalRecords: parsedData.totalResults,
+          pageSize: this.props.newsApi.pageSize,
+          loading: false,
+        });
+      } else {
+        this.setState({ loading: false });
+      }
+    }
+    this.props.setProgress(100);
   }
 
   async componentDidMount() {
@@ -148,19 +155,26 @@ export class News extends Component {
 
       let url = `${this.props.newsApi.baseUrl}${this.props.newsApi.apiVersion}${this.props.newsApi.newsType}country=${this.props.newsApi.country}&category=${this.props.category}&apiKey=${this.props.newsApi.apiToken}&page=${updatedPageNo}&pageSize=${this.props.newsApi.pageSize}`;
       console.log("URL : " + url);
-      // this.setState({ loading: true });
-      // let data = await fetch(url);
-      // if (data.ok) {
-      //   let parsedData = await data.json();
-      //   this.setState({
-      //     articles: this.state.articles.concat(parsedData.articles),
-      //     totalRecords: parsedData.totalResults,
-      //     pageSize: this.props.newsApi.pageSize,
-      //     loading: false,
-      //   });
-      // }else{
-      //   this.setState({ loading: false });
-      // }
+      this.props.setProgress(10);
+      if (this.props.newsApi.triggerApi) {
+        this.setState({ loading: true });
+        this.props.setProgress(15);
+        let data = await fetch(url);
+        this.props.setProgress(50);
+        if (data.ok) {
+          let parsedData = await data.json();
+          this.props.setProgress(75);
+          this.setState({
+            articles: this.state.articles.concat(parsedData.articles),
+            totalRecords: parsedData.totalResults,
+            pageSize: this.props.newsApi.pageSize,
+            loading: false,
+          });
+        } else {
+          this.setState({ loading: false });
+        }
+      }
+      this.props.setProgress(100);
     }
   };
 

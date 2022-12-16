@@ -6,7 +6,8 @@
         "pageSize":20,
         "categories":["business", "entertainment", "general" ,"health" , "science" , "sports" ,  "technology"],
         "country":"in",
-        "apiToken":"a675c1ea195f4eb9b5090a160af2ebbc"
+        "apiToken":"a675c1ea195f4eb9b5090a160af2ebbc",
+        "triggerApi":false
 
     }
 }
