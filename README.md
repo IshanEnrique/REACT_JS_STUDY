@@ -31,3 +31,19 @@ npm i express
 npm i mongoose
 
 ```
+
+> 6. Install Nodemon to work with MongoDB using - 
+
+```sh
+
+npm i -g nodemon
+
+```
+
+> 7. To run the application , below command - 
+
+```sh
+
+nodemon .\index.js
+
+```
