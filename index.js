@@ -1,11 +1,22 @@
-const connectToMongo=require('./db');
+const connectToMongo = require('./db');
+const express = require('express');
 connectToMongo();
-const express = require('express')
-const app = express()
-const port = 3000
+const app = express();
+const port = 3000;
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
+
+app.use(express.json());
+// Available Routes
+
+app.use('/api/auth',require('./routes/auth'));
+app.use('/api/notes',require('./routes/notes'));
+
+app.get('/api/v1/login', (req, res) => {
+  res.send('Hello Login');
+})
+
+app.get('/api/v1/signup', (req, res) => {
+  res.send('Hello Signup');
 })
 
 app.listen(port, () => {
