@@ -47,3 +47,11 @@ npm i -g nodemon
 nodemon .\index.js
 
 ```
+
+> 8. Install express-validator for request validation - 
+
+```sh
+
+npm install --save express-validator 
+
+```
