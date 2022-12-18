@@ -63,3 +63,19 @@ npm install --save express-validator
 npm install bcryptjs
 
 ```
+
+> 10. Install JsonWebToken package to use JWT 
+
+```sh
+
+npm install jsonwebtoken
+
+```
+
+> 11. Install dotenv package to use environment variables
+
+```sh
+
+npm install dotenv --save
+
+```

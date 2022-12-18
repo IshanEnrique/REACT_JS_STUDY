@@ -3,6 +3,9 @@ const UserSchema = require("../models/User");
 const router = express.Router();
 const { body, validationResult } = require("express-validator");
 const becrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
+require('dotenv').config();
 
 // Create user . No auth required
 router.post(
@@ -53,14 +56,20 @@ router.post(
         email: req.body.email,
         mobile: req.body.mobile,
       });
+      console.log("REC_APP_JWT_SECRET : " +process.env.JWT_SECRET);
+      let token = jwt.sign(user.id, process.env.JWT_SECRET);
+      console.log(" JWT Token : " + token);
       const dbStatus = await user.save();
       console.log("Save status : " + dbStatus);
       res.status(200);
       res.json({
-        name: req.body.name,
-        password: "###############",
-        email: req.body.email,
-        mobile: req.body.mobile,
+        authToken: token,
+        userDetails: {
+          name: req.body.name,
+          password: "###############",
+          email: req.body.email,
+          mobile: req.body.mobile,
+        }
       });
     } catch (err) {
       console.log(err);
