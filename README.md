@@ -55,3 +55,11 @@ nodemon .\index.js
 npm install --save express-validator 
 
 ```
+
+> 9. Install bcryptjs for hashing , salting to make more secure passwords 
+
+```sh
+
+npm install bcryptjs
+
+```

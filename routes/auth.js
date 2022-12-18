@@ -2,6 +2,7 @@ const express = require("express");
 const UserSchema = require("../models/User");
 const router = express.Router();
 const { body, validationResult } = require("express-validator");
+const becrypt = require("bcryptjs");
 
 // Create user . No auth required
 router.post(
@@ -34,7 +35,7 @@ router.post(
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
-      const user = await UserSchema.findOne({ email: req.body.email });
+      let user = await UserSchema.findOne({ email: req.body.email });
       if (user) {
         return res.status(400).json({
           error: {
@@ -44,11 +45,23 @@ router.post(
           },
         });
       }
-      user = UserSchema(req.body);
+      const salt = await becrypt.genSalt(10);
+      const securePassword = await becrypt.hash(req.body.password, salt);
+      user = UserSchema({
+        name: req.body.name,
+        password: securePassword,
+        email: req.body.email,
+        mobile: req.body.mobile,
+      });
       const dbStatus = await user.save();
       console.log("Save status : " + dbStatus);
       res.status(200);
-      res.send(req.body);
+      res.json({
+        name: req.body.name,
+        password: "###############",
+        email: req.body.email,
+        mobile: req.body.mobile,
+      });
     } catch (err) {
       console.log(err);
       res.status(500).json(err);
