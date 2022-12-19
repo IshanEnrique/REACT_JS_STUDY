@@ -1,6 +1,6 @@
 const successCode = require("./SuccessCodes");
 const errorCode = require("./ErrorCodes");
-
+const ERROR_INTERNAL_SERVER_MSG="Internal server error.";
 const responses = {
   successResponse: {
     data: {
@@ -36,4 +36,4 @@ function createErrorResponse(errorCode, message) {
   return errorData;
 }
 
-module.exports = { responses, createSuccessResponse, createErrorResponse };
+module.exports = { responses,ERROR_INTERNAL_SERVER_MSG, createSuccessResponse, createErrorResponse };
