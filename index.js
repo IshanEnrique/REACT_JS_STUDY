@@ -23,6 +23,7 @@ app.use('/api/v1/auth',require('./routes/userProfile'));
 app.use('/api/v1/auth/notes',require('./routes/notes'));
 app.use('/api/v1/auth/notes',require('./routes/createNotes'));
 app.use('/api/v1/auth/notes',require('./routes/updateNotes'));
+app.use('/api/v1/auth/notes',require('./routes/deleteNotes'));
 
 
 
