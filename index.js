@@ -11,8 +11,15 @@ require('dotenv').config();
 app.use(express.json());
 // Available Routes
 
+// Non-Authenticated Routes
 
-app.use('/api/auth',require('./routes/auth'));
+app.use('/api/v1/no-auth',require('./routes/createUser'));
+app.use('/api/v1/no-auth',require('./routes/login'));
+
+
+// Authenticated Routes
+
+app.use('/api/v1/auth',require('./routes/userProfile'));
 app.use('/api/notes',require('./routes/notes'));
 
 
