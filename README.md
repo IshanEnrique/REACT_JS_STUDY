@@ -79,3 +79,31 @@ npm install jsonwebtoken
 npm install dotenv --save
 
 ```
+
+## Install CORS package to remove CORS policy issue
+
+
+> 12. Install dotenv package to use environment variables
+
+```sh
+
+npm install cors
+
+```
+
+> 13. Import cors
+
+```sh
+
+const cors = require('cors')
+
+```
+
+> 14. Use CORS
+
+```sh
+
+const app = express(); 
+app.use(cors());
+
+```
