@@ -17,9 +17,10 @@ router.delete("/delete-notes/:id", authenticateUser, async (req, res) => {
       return res
         .status(200)
         .json(
-          response.createErrorResponse(
+          response.createSuccessResponse(
             successCode.SUCCESS_,
-            "Note removed from the system by given id."
+            "Note removed from the system by given id.",
+            null
           )
         );
     }
