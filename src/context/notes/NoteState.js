@@ -5,62 +5,40 @@ import NoteContext from "./noteContext";
 const NoteState = (props) => {
   // Declaring the State object
   const initialNotesState = [
-    {
-      "_id": "63a058f1fac2d5d55fcb0dbf",
-      "title": "MERN Notes",
-      "description": "MERN stands for MongoDB , Express ,  ReactJS , NodeJS",
-      "tag": "rahul.kumar0850@gmail.com",
-      "date": "2022-12-19T12:28:33.276Z",
-      "user": "639f40afad6d06927af81db2",
-      "__v": 0
-    },
-    {
-      "_id": "63a0d2f35de095bc37458e93",
-      "title": "MERN Notes -2 ",
-      "description": "Notes -2 ",
-      "tag": "MERM Study",
-      "date": "2022-12-19T21:09:07.627Z",
-      "user": "639f40afad6d06927af81db2",
-      "__v": 0
-    },{
-      "_id": "63a058f1fac2d5d55fcb0dbf3",
-      "title": "MERN Notes",
-      "description": "MERN stands for MongoDB , Express ,  ReactJS , NodeJS",
-      "tag": "rahul.kumar0850@gmail.com",
-      "date": "2022-12-19T12:28:33.276Z",
-      "user": "639f40afad6d06927af81db2",
-      "__v": 0
-    },
-    {
-      "_id": "63a0d2f35de095bc37458e934",
-      "title": "MERN Notes -2 ",
-      "description": "Notes -2 ",
-      "tag": "MERM Study",
-      "date": "2022-12-19T21:09:07.627Z",
-      "user": "639f40afad6d06927af81db2",
-      "__v": 0
-    },{
-      "_id": "63a058f1fac2d5d55fcb0dbf5",
-      "title": "MERN Notes",
-      "description": "MERN stands for MongoDB , Express ,  ReactJS , NodeJS",
-      "tag": "rahul.kumar0850@gmail.com",
-      "date": "2022-12-19T12:28:33.276Z",
-      "user": "639f40afad6d06927af81db2",
-      "__v": 0
-    },
-    {
-      "_id": "63a0d2f35de095bc37458e936",
-      "title": "MERN Notes -2 ",
-      "description": "Notes -2 ",
-      "tag": "MERM Study",
-      "date": "2022-12-19T21:09:07.627Z",
-      "user": "639f40afad6d06927af81db2",
-      "__v": 0
-    }
+    
   ];
 
 //   Declaring the state
   const [notes, setNotes] = useState(initialNotesState);
+
+// Get all Notes
+
+const getNotes=async ()=>{
+  let url=process.env.REACT_APP_INOTEBOOK_BACKEND_SERVER+":"+
+  process.env.REACT_APP_INOTEBOOK_BACKEND_PORT+
+  process.env.REACT_APP_INOTEBOOK_BACKEND_HOST+
+  process.env.REACT_APP_INOTEBOOK_BACKEND_URI+
+  process.env.REACT_APP_INOTEBOOK_BACKEND_PATH_NOTES+
+  "get-all-notes";
+  console.log("URL : "+url);
+ 
+
+  let response= await fetch(url,{
+  method:"GET",
+  headers:{
+  "content-type":"application/json",
+  "auth-token":process.env.REACT_APP_INOTEBOOK_BACKEND_DEMO_AUTH_TOKEN
+  }
+  });
+  if(response.status===200){
+    let res=await response.json();
+    console.log("Getting all Notes "+JSON.stringify(res));
+    if(res.successCode==="00"){
+      console.log("All notes loaded.........");
+      setNotes(res.data.notes);
+    }
+  }
+}
 
   // Add a Note
 
@@ -81,12 +59,74 @@ const NoteState = (props) => {
   }
   // Delete a Note
 
-  const delteNote=()=>{
+  const deleteNote=async (id)=>{
+
+    console.log("Deleting a note with Id : "+id);
+    let url=process.env.REACT_APP_INOTEBOOK_BACKEND_SERVER+":"+
+    process.env.REACT_APP_INOTEBOOK_BACKEND_PORT+
+    process.env.REACT_APP_INOTEBOOK_BACKEND_HOST+
+    process.env.REACT_APP_INOTEBOOK_BACKEND_URI+
+    process.env.REACT_APP_INOTEBOOK_BACKEND_PATH_NOTES+
+    "delete-notes/"+id;
+
+    let response= await fetch(url,{
+    method:"DELETE",
+    headers:{
+    "content-type":"application/json",
+    "auth-token":process.env.REACT_APP_INOTEBOOK_BACKEND_DEMO_AUTH_TOKEN
+    }
+    });
+    if(response.status===200){
+      let res=await response.json();
+      console.log("Deleting a Note "+JSON.stringify(res));
+      if(res.successCode==="00"){
+        console.log("Note has been removed from the system.......");
+        let newNotes=notes.filter((note)=>{
+          return note._id!==id;
+        });
+        setNotes(newNotes);
+      }
+    }
     
   }
   // Edit a Note
-  const editNote=()=>{
-    
+  const editNote=async (id,title,description,tag)=>{
+    // TODO: API CALL
+
+    let url=process.env.REACT_APP_INOTEBOOK_BACKEND_SERVER+":"+
+            process.env.REACT_APP_INOTEBOOK_BACKEND_PORT+
+            process.env.REACT_APP_INOTEBOOK_BACKEND_HOST+
+            process.env.REACT_APP_INOTEBOOK_BACKEND_URI+
+            process.env.REACT_APP_INOTEBOOK_BACKEND_PATH_NOTES+
+            "update-notes/"+id;
+    console.log("URL : "+url);
+    let reqData={
+      "title": title,
+      "description": description,
+      "tag": tag
+    };
+
+    let response= await fetch(url,{
+      method:"POST",
+      headers:{
+        "content-type":"application/json",
+        "auth-token":process.env.REACT_APP_INOTEBOOK_BACKEND_DEMO_AUTH_TOKEN
+      },
+      body:JSON.stringify(reqData)
+    });
+    let res=response.json();
+    console.log("Update API response : "+res);
+    // Editing the note
+    console.log("Editing the note on id : "+id);
+    notes.forEach((note)=>{
+      if(note._id===id){
+        note.title=title;
+        note.description=description;
+        note.tag=tag;
+      }
+    });
+
+   
   }
   
   // Sample  Function to update the state
@@ -100,7 +140,7 @@ const NoteState = (props) => {
 //   };
   // Wrapping the State with the help of NoteContext and providing the value
   return (
-    <NoteContext.Provider value={{notes,addNote,delteNote,editNote}}>{props.children}</NoteContext.Provider>
+    <NoteContext.Provider value={{notes,addNote,deleteNote,editNote,getNotes}}>{props.children}</NoteContext.Provider>
   );
 };
 

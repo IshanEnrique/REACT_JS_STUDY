@@ -1,11 +1,21 @@
-import React, { useContext }  from "react";
+import React, { useContext, useEffect }  from "react";
 import AddNote from "./AddNote";
 import NoteItem from "./NoteItem";
 import contextValue from "../context/notes/noteContext";
 
 const Notes = () => {
   const context = useContext(contextValue);
-  const { notes, addNote } = context;
+  const { notes, getNotes } = context;
+
+  useEffect(() => {
+    try {
+      getNotes();
+    } catch (error) {
+      console.log("Error in Use Effect : "+error)
+    }
+    // eslint-disable-next-line
+  }, [])
+
   return (
     <>
       <AddNote />
