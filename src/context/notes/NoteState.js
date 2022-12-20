@@ -67,11 +67,11 @@ const NoteState = (props) => {
     });
     if (response.status === 200) {
       let res = await response.json();
-      console.log("Create Note API Response : "+JSON.stringify(res));
-      if(res.successCode==="00"){
+      console.log("Create Note API Response : " + JSON.stringify(res));
+      if (res.successCode === "00") {
         let note = res.data.notes;
         setNotes(notes.concat(note));
-        console.log("New created in the system.........")
+        console.log("New created in the system.........");
       }
     }
   };
@@ -129,7 +129,7 @@ const NoteState = (props) => {
     };
 
     let response = await fetch(url, {
-      method: "POST",
+      method: "PUT",
       headers: {
         "content-type": "application/json",
         "auth-token": process.env.REACT_APP_INOTEBOOK_BACKEND_DEMO_AUTH_TOKEN,
@@ -140,14 +140,24 @@ const NoteState = (props) => {
     console.log("Update API response : " + res);
     // Editing the note
     console.log("Editing the note on id : " + id);
-    notes.forEach((note) => {
+    // let index=-1;
+    for (let i = 0; i < notes.length; i++) {
+      let note = notes[i];
       if (note._id === id) {
-        note.title = title;
-        note.description = description;
-        note.tag = tag;
+        console.log("Edit Note index number : " + i);
+        // index=i;
+        notes[i].title = title;
+        notes[i].description = description;
+        notes[i].tag = tag;
+        break;
       }
-    });
+    }
+    getNotes();
+    
+    
   };
+
+
 
   // Sample  Function to update the state
   //   const update = () => {
