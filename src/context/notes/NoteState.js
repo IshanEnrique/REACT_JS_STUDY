@@ -56,28 +56,38 @@ const NoteState = (props) => {
       "date": "2022-12-19T21:09:07.627Z",
       "user": "639f40afad6d06927af81db2",
       "__v": 0
-    },{
-      "_id": "63a058f1fac2d5d55fcb0dbf7",
-      "title": "MERN Notes",
-      "description": "MERN stands for MongoDB , Express ,  ReactJS , NodeJS",
-      "tag": "rahul.kumar0850@gmail.com",
-      "date": "2022-12-19T12:28:33.276Z",
-      "user": "639f40afad6d06927af81db2",
-      "__v": 0
-    },
-    {
-      "_id": "63a0d2f35de095bc37458e938",
-      "title": "MERN Notes -2 ",
-      "description": "Notes -2 ",
-      "tag": "MERM Study",
-      "date": "2022-12-19T21:09:07.627Z",
-      "user": "639f40afad6d06927af81db2",
-      "__v": 0
     }
   ];
 
 //   Declaring the state
   const [notes, setNotes] = useState(initialNotesState);
+
+  // Add a Note
+
+  const addNote=(title,description,tag)=>{
+
+    console.log("Adding a new note");
+    // TODO: API CALL
+    let note={
+      "_id": "63a0d2f35de095bc37458e9361",
+      "title": title,
+      "description": description,
+      "tag": tag,
+      "date": "2022-12-19T21:09:07.627Z",
+      "user": "639f40afad6d06927af81db2",
+      "__v": 0
+    };
+    setNotes(notes.concat(note));
+  }
+  // Delete a Note
+
+  const delteNote=()=>{
+    
+  }
+  // Edit a Note
+  const editNote=()=>{
+    
+  }
   
   // Sample  Function to update the state
 //   const update = () => {
@@ -90,7 +100,7 @@ const NoteState = (props) => {
 //   };
   // Wrapping the State with the help of NoteContext and providing the value
   return (
-    <NoteContext.Provider value={{notes,setNotes}}>{props.children}</NoteContext.Provider>
+    <NoteContext.Provider value={{notes,addNote,delteNote,editNote}}>{props.children}</NoteContext.Provider>
   );
 };
 
