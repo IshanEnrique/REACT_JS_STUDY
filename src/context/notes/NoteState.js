@@ -136,28 +136,14 @@ const NoteState = (props) => {
       },
       body: JSON.stringify(reqData),
     });
-    let res = response.json();
-    console.log("Update API response : " + res);
-    // Editing the note
-    console.log("Editing the note on id : " + id);
-    // let index=-1;
-    for (let i = 0; i < notes.length; i++) {
-      let note = notes[i];
-      if (note._id === id) {
-        console.log("Edit Note index number : " + i);
-        // index=i;
-        notes[i].title = title;
-        notes[i].description = description;
-        notes[i].tag = tag;
-        break;
+    if (response.status === 200) {
+      let res = await response.json();
+      console.log("Deleting a Note " + JSON.stringify(res));
+      if (res.successCode === "00") {
+        getNotes();
       }
     }
-    getNotes();
-    
-    
   };
-
-
 
   // Sample  Function to update the state
   //   const update = () => {
