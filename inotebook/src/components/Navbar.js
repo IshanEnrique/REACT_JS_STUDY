@@ -8,7 +8,6 @@ const Navbar = () => {
   const location= useLocation();
   const [pathName, setPathName] = useState(location.pathname);
   useEffect(() => {
-    console.log(pathName);
     setPathName(location.pathname);
     // eslint-disable-next-line 
   }, [location]);
