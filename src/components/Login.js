@@ -1,19 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AlertContext from "../context/alert/alertContext";
 
+const Login = () => {
+  const context = useContext(AlertContext);
+  const { showAlert } = context;
+  const [cred, setCred] = useState({ email: "", password: "" });
+  let navigate = useNavigate();
 
-const Login =  () => {
-    const [cred, setCred] = useState({email:"",password:""});
-    let navigate= useNavigate();    
+  const handleOnChange = (e) => {
+    setCred({ ...cred, [e.target.name]: e.target.value });
+  };
 
-    const handleOnChange=(e)=>{
-        setCred({...cred,[e.target.name]:e.target.value});
-        
-    }
-
-    const handleLoginSubmit= async (e)=>{
-        e.preventDefault();
-        let url =
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+    let url =
       process.env.REACT_APP_INOTEBOOK_BACKEND_SERVER +
       ":" +
       process.env.REACT_APP_INOTEBOOK_BACKEND_PORT +
@@ -23,28 +24,33 @@ const Login =  () => {
     console.log("URL : " + url);
     let reqData = {
       email: cred.email,
-      password: cred.password
+      password: cred.password,
     };
 
     let response = await fetch(url, {
       method: "POST",
       headers: {
-        "content-type": "application/json"
+        "content-type": "application/json",
       },
       body: JSON.stringify(reqData),
     });
+    let res = await response.json();
     if (response.status === 200) {
-      let res = await response.json();
       console.log("Login API Response : " + JSON.stringify(res));
       if (res.successCode === "00") {
         console.log("Login in the system.........");
         // Save the token and redirect
-        localStorage.setItem('auth-token',res.data.authToken);
-        navigate('/');
-
+        localStorage.setItem("auth-token", res.data.authToken);
+        navigate("/");
+        showAlert(res.successMessage, "success");
+      }else{
+        showAlert(res.error.errorMessage,"danger")
       }
-    }
-    }
+    }else{
+        
+        showAlert(res.error.errorMessage,"danger")
+      }
+  };
 
   return (
     <div>
@@ -82,7 +88,7 @@ const Login =  () => {
           />
         </div>
 
-        <button type="submit" className="btn btn-primary" >
+        <button type="submit" className="btn btn-primary">
           Submit
         </button>
       </form>
