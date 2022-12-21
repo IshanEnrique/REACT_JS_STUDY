@@ -9,6 +9,7 @@ function AddNote() {
   const handleAddNote=(e)=>{
     e.preventDefault();
     addNote(note.title,note.description,note.tag);
+    setNote({title:"",description:"",tag:""})
   }
   const handOnChange=(e)=>{
     
@@ -29,6 +30,7 @@ function AddNote() {
                 className="form-control"
                 id="title"
                 name="title"
+                value={note.title}
                 aria-describedby="Enter the Title of the Note"
                 onChange={handOnChange}
               />
@@ -45,6 +47,7 @@ function AddNote() {
                 className="form-control"
                 id="description"
                 name="description"
+                value={note.description}
                 onChange={handOnChange}
               />
             </div>
@@ -57,6 +60,7 @@ function AddNote() {
                 className="form-control"
                 id="tag"
                 name="tag"
+                 value={note.tag}
                 onChange={handOnChange}
               />
             </div>
