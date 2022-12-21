@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import NoteContext from "./noteContext";
+import contextValue from "../alert/alertContext";
 
 // Defining the State structure and providing mechanism to make state available everywhere
 const NoteState = (props) => {
+  const context = useContext(contextValue);
+  const { showAlert } = context;
   // Declaring the State object
   const initialNotesState = [];
 
@@ -26,7 +29,7 @@ const NoteState = (props) => {
       method: "GET",
       headers: {
         "content-type": "application/json",
-        "auth-token": process.env.REACT_APP_INOTEBOOK_BACKEND_DEMO_AUTH_TOKEN,
+        "auth-token": localStorage.getItem('auth-token'),
       },
     });
     if (response.status === 200) {
@@ -61,18 +64,22 @@ const NoteState = (props) => {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        "auth-token": process.env.REACT_APP_INOTEBOOK_BACKEND_DEMO_AUTH_TOKEN,
+        "auth-token": localStorage.getItem('auth-token'),
       },
       body: JSON.stringify(reqData),
     });
+    let res = await response.json();
     if (response.status === 200) {
-      let res = await response.json();
-      console.log("Create Note API Response : " + JSON.stringify(res));
       if (res.successCode === "00") {
         let note = res.data.notes;
         setNotes(notes.concat(note));
         console.log("New created in the system.........");
+        showAlert(res.successMessage, "success");
+      } else {
+        showAlert(res.error.errorMessage, "danger");
       }
+    } else {
+      showAlert(res.error.errorMessage, "danger");
     }
   };
   // Delete a Note
@@ -93,11 +100,11 @@ const NoteState = (props) => {
       method: "DELETE",
       headers: {
         "content-type": "application/json",
-        "auth-token": process.env.REACT_APP_INOTEBOOK_BACKEND_DEMO_AUTH_TOKEN,
+        "auth-token": localStorage.getItem('auth-token'),
       },
     });
+    let res = await response.json();
     if (response.status === 200) {
-      let res = await response.json();
       console.log("Deleting a Note " + JSON.stringify(res));
       if (res.successCode === "00") {
         console.log("Note has been removed from the system.......");
@@ -105,13 +112,16 @@ const NoteState = (props) => {
           return note._id !== id;
         });
         setNotes(newNotes);
+        showAlert(res.successMessage, "success");
+      } else {
+        showAlert(res.error.errorMessage, "danger");
       }
+    } else {
+      showAlert(res.error.errorMessage, "danger");
     }
   };
   // Edit a Note
   const editNote = async (id, title, description, tag) => {
-    // TODO: API CALL
-
     let url =
       process.env.REACT_APP_INOTEBOOK_BACKEND_SERVER +
       ":" +
@@ -132,29 +142,24 @@ const NoteState = (props) => {
       method: "PUT",
       headers: {
         "content-type": "application/json",
-        "auth-token": process.env.REACT_APP_INOTEBOOK_BACKEND_DEMO_AUTH_TOKEN,
+        "auth-token": localStorage.getItem('auth-token'),
       },
       body: JSON.stringify(reqData),
     });
+    let res = await response.json();
     if (response.status === 200) {
-      let res = await response.json();
       console.log("Deleting a Note " + JSON.stringify(res));
       if (res.successCode === "00") {
         getNotes();
+        showAlert(res.successMessage, "success");
+      } else {
+        showAlert(res.error.errorMessage, "danger");
       }
+    } else {
+      showAlert(res.error.errorMessage, "danger");
     }
   };
 
-  // Sample  Function to update the state
-  //   const update = () => {
-  //     setTimeout(() => {
-  //         setState({
-  //             name: "Vicky",
-  //             class: "10b",
-  //           });
-  //     }, 2000);
-  //   };
-  // Wrapping the State with the help of NoteContext and providing the value
   return (
     <NoteContext.Provider
       value={{ notes, addNote, deleteNote, editNote, getNotes }}

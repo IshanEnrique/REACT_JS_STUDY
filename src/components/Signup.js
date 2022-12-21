@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import alertContext from '../context/alert/alertContext';
 const Signup = () => {
+  const context = useContext(alertContext);
+  const {showAlert}=context;
   const [profile, setProfile] = useState({
     name: "",
     email: "",
@@ -39,20 +41,26 @@ const Signup = () => {
       },
       body: JSON.stringify(reqData),
     });
+    let res = await response.json();
     if (response.status === 200) {
-      let res = await response.json();
       console.log("Create Profile API Response : " + JSON.stringify(res));
       if (res.successCode === "00") {
         console.log("Created Profile in the system.........");
         // Save the token and redirect
         // localStorage.setItem("auth-token", res.data.authToken);
         navigate("/");
+        showAlert(res.successMessage,"success");
+      }else{
+        showAlert(res.error.errorMessage,"danger");
       }
+    }else{
+      showAlert(res.error.errorMessage,"danger");
     }
   };
 
   return (
-    <div>
+    <div className="container">
+       <h2>Signup to use iNotebook</h2>
       <form onSubmit={handleLoginSubmit}>
         <div className="mb-3">
           <label htmlFor="email" className="form-label"> Email address </label>

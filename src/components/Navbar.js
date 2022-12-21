@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import {
-  Link, useLocation
+  Link, useLocation, useNavigate
 } from "react-router-dom";
 
 
 const Navbar = () => {
+  const navigate=useNavigate();
+  const handleLogout=()=>{
+    localStorage.removeItem("auth-token");
+    navigate("/login");
+  }
   const location= useLocation();
   const [pathName, setPathName] = useState(location.pathname);
   useEffect(() => {
     setPathName(location.pathname);
+    
     // eslint-disable-next-line 
   }, [location]);
 
@@ -33,10 +39,12 @@ const Navbar = () => {
                 <Link className="nav-link disabled">Disabled</Link>
               </li>
             </ul>
-            <form className="d-flex">
+           {! localStorage.getItem("auth-token") ?<form className="d-flex">
             <Link className="btn btn-primary mx-1" to='/login'  role="button">Login</Link>
             <Link className="btn btn-primary mx-1" to='/signup' role="button">Signup</Link>
-            </form>
+            </form>:
+            <button className="btn btn-primary mx-1" onClick={handleLogout}>Logout</button>
+          }
           </div>
         </div>
       </nav>
