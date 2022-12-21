@@ -49,14 +49,12 @@ router.post(
       // Checking for the user existance in by email. If user exists then returning the 400 Bad request
       let user = await UserSchema.findOne({ email: req.body.email });
       if (user) {
-        let errorResponse = response.createErrorResponse(
-          errorCodes.ERR_USER_ALREADY_EXISTS,
-          "User already registered with the provided email."
+        return res.status(400).json(
+          response.createErrorResponse(
+            errorCodes.ERR_USER_ALREADY_EXISTS,
+            "User already registered with the provided email."
+          )
         );
-
-        return res.status(400).json({
-          errorResponse: errorResponse,
-        });
       }
 
       // Generating BCrypt Salt

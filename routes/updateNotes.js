@@ -68,7 +68,7 @@ router.put("/update-notes/:id", authenticateUser, async (req, res) => {
       return res
         .status(406)
         .json(
-          responses.createErrorResponse(
+          response.createErrorResponse(
             errorCodes.ERR_DATA_NOT_EXISTS,
             "Something went wrong while updating the Notes.",
             { notes: notes }
