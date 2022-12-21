@@ -31,7 +31,7 @@ router.delete("/delete-notes/:id", authenticateUser, async (req, res) => {
       .json(
         response.createErrorResponse(
           errorCodes.ERR_500_INTERNAL_SERVER,
-          "OOPS! Something went wrong while deleting the Notes details."
+          "OOPS! Something went wrong while deleting the Notes details.",null
         )
       );
   }

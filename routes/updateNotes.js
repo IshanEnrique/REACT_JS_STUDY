@@ -29,7 +29,7 @@ router.put("/update-notes/:id", authenticateUser, async (req, res) => {
         .json(
           response.createErrorResponse(
             errorCodes.ERR_DATA_NOT_EXISTS,
-            "No Note found in the system by given id."
+            "No Note found in the system by given id.",null
           )
         );
     }
@@ -40,7 +40,7 @@ router.put("/update-notes/:id", authenticateUser, async (req, res) => {
         .json(
           response.createErrorResponse(
             errorCodes.ERR_DATA_NOT_EXISTS,
-            "You are not authorized to update this Note."
+            "You are not authorized to update this Note.",null
           )
         );
     }
@@ -71,7 +71,7 @@ router.put("/update-notes/:id", authenticateUser, async (req, res) => {
           response.createErrorResponse(
             errorCodes.ERR_DATA_NOT_EXISTS,
             "Something went wrong while updating the Notes.",
-            { notes: notes }
+            { notes: note }
           )
         );
     }
@@ -82,7 +82,7 @@ router.put("/update-notes/:id", authenticateUser, async (req, res) => {
       .json(
         response.createErrorResponse(
           errorCodes.ERR_500_INTERNAL_SERVER,
-          "OOPS! Something went wrong while updating the Notes details."
+          "OOPS! Something went wrong while updating the Notes details.",null
         )
       );
   }

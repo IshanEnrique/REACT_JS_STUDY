@@ -44,7 +44,7 @@ router.post(
       console.log("Validation Result : " + errors.isEmpty());
       // Confirming the successfull validation
       if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res.status(400).json({ error: errors.array() });
       }
       // Checking for the user existance in by email. If user exists then returning the 400 Bad request
       let user = await UserSchema.findOne({ email: req.body.email });
@@ -52,7 +52,7 @@ router.post(
         return res.status(400).json(
           response.createErrorResponse(
             errorCodes.ERR_USER_ALREADY_EXISTS,
-            "User already registered with the provided email."
+            "User already registered with the provided email.",null
           )
         );
       }
@@ -105,7 +105,7 @@ router.post(
         res.json(
           response.createErrorResponse(
             errorCodes.ERR_DEFAULT_,
-            "Sorry , System is unable to process your request."
+            "Sorry , System is unable to process your request.",null
           )
         );
       }
@@ -116,7 +116,7 @@ router.post(
         .json(
           response.createErrorResponse(
             errorCodes.ERR_500_INTERNAL_SERVER,
-            response.ERROR_INTERNAL_SERVER_MSG
+            response.ERROR_INTERNAL_SERVER_MSG,null
           )
         );
     }

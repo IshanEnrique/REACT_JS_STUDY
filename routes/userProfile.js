@@ -29,7 +29,7 @@ router.get("/user-profile", authenticate, async (req, res) => {
         .json(
           response.createErrorResponse(
             errorCodes.ERR_USER_NOT_EXISTS,
-            "No user found with given details."
+            "No user found with given details.",null
           )
         );
     }
@@ -40,7 +40,7 @@ router.get("/user-profile", authenticate, async (req, res) => {
       .json(
         response.createErrorResponse(
           errorCodes.ERR_500_INTERNAL_SERVER,
-          "OOPS! Something went wrong while getting the user-profile details."
+          "OOPS! Something went wrong while getting the user-profile details.",null
         )
       );
   }

@@ -49,7 +49,7 @@ router.post("/create-notes",[
       .json(
         response.createErrorResponse(
           errorCodes.ERR_500_INTERNAL_SERVER,
-          "OOPS! Something went wrong while saving the Notes details."
+          "OOPS! Something went wrong while saving the Notes details.",null
         )
       );
   }

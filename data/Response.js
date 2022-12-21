@@ -29,10 +29,13 @@ function createSuccessResponse(successCode, message, data) {
   return successData;
 }
 
-function createErrorResponse(errorCode, message) {
+function createErrorResponse(errorCode, message,data) {
   let errorData = JSON.parse(JSON.stringify(responses.failureResponse));
   errorData.error.errorCode = errorCode;
   errorData.error.errorMessage = message;
+  if (data) {
+    errorData.data = data;
+  }
   return errorData;
 }
 

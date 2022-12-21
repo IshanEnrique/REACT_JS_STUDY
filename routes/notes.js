@@ -37,7 +37,7 @@ router.get("/get-all-notes", authenticateUser, async (req, res) => {
       .json(
         response.createErrorResponse(
           errorCodes.ERR_500_INTERNAL_SERVER,
-          "OOPS! Something went wrong while getting all Notes details."
+          "OOPS! Something went wrong while getting all Notes details.",null
         )
       );
   }

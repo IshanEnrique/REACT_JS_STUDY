@@ -12,7 +12,7 @@ const authenticateUser = (req, res, next) => {
       .json(
         response.createErrorResponse(
           errorCodes.ERR_401_UNAUTHORIZED,
-          "You are not authorized to access this resource."
+          "You are not authorized to access this resource.",null
         )
       );
   } else {
@@ -28,7 +28,7 @@ const authenticateUser = (req, res, next) => {
         .json(
           response.createErrorResponse(
             errorCodes.ERR_401_UNAUTHORIZED,
-            "You are not authorized to access this resource."
+            "You are not authorized to access this resource.",null
           )
         );
     }

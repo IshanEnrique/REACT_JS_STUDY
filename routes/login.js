@@ -36,7 +36,7 @@ router.post(
           .json(
             response.createErrorResponse(
               errorCodes.ERR_USER_NOT_EXISTS,
-              "Login failed. Please use valid credentials."
+              "Login failed. Please use valid credentials.",null
             )
           );
       } else {
@@ -48,7 +48,7 @@ router.post(
             .json(
               response.createErrorResponse(
                 errorCodes.ERR_USER_NOT_EXISTS,
-                "Login failed. Please use valid credentials."
+                "Login failed. Please use valid credentials.",null
               )
             );
         } else {
@@ -81,7 +81,7 @@ router.post(
         .json(
           response.createErrorResponse(
             errorCodes.ERR_500_INTERNAL_SERVER,
-            response.ERROR_INTERNAL_SERVER_MSG
+            response.ERROR_INTERNAL_SERVER_MSG,null
           )
         );
     }
