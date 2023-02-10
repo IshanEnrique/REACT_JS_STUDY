@@ -19,7 +19,7 @@
 > Unknown
 
 
-# Syntax - 1
+# Syntax - variable decleration
 
 
 ## let variableName: type=value
@@ -40,5 +40,9 @@
 
 
 ## Best practice -----------
-> As TypeScript is smart enough to detect the type of the data being provided in variable initialization , so the best practice should be not always give the type of the data in the decleration part if TypeScript can detect its type autometically . 
+> As TypeScript is smart enough to detect the type of the data being provided in variable initialization , so the best practice should be not always give the type of the data in the decleration part if TypeScript can detect its type autometically .
+
+>// boolean decleration without specifying the type of the data 
+
+1. let isLoggedIn = false;
 
