@@ -38,3 +38,7 @@
 
 > Some error line may be seen on greetings . But still works fine , to overcome this error add in the lase -- export {}
 
+
+## Best practice -----------
+> As TypeScript is smart enough to detect the type of the data being provided in variable initialization , so the best practice should be not always give the type of the data in the decleration part if TypeScript can detect its type autometically . 
+
