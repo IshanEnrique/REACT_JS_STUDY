@@ -19,4 +19,6 @@ const superHero: string [][]=[
     ["055","055","055"]
 ]
 
+export {}
+
 ```
