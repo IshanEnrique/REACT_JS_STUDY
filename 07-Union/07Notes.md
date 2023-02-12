@@ -15,6 +15,14 @@ score="200"
 score=200
 
 
+```
+
+
+> Union of two custom types Type Alias
+
+```sh
+
+
 type User={
     name: string
     id:number
@@ -24,13 +32,6 @@ type Admin={
     username:string
     id:number
 }
-
-```
-
-
-> Union of two custom types Type Alias
-
-```sh
 
 let rahul : User | Admin;
 
