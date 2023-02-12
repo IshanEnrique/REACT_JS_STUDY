@@ -2,14 +2,18 @@
 
 > Function without specifying type
 
+```sh
 function addTwo(num){
     return num+2;
 }
 console.log("Function without specifying type : "+addTwo(5))
 - But the problem will start when some one consumer of this function passes value other than a number . Then this should be not the correct.
 
+
+```
 > To overcome this problem we can go the functions accepting the typed input.
 
+```sh
 function addTwoWithType(num:number){
     return num+2;
 }
@@ -20,8 +24,11 @@ let signUpArrowFunction=(name:string , email:string , age: number , isPaid: bool
 }
 console.log("Arrow function example with Typed accepting parameter  : "+signUpArrowFunction("Rahul","rahul@bharatkadam.com",31,false))
 
+```
+
 > Function with optional accepting parameter
 
+```sh
 let signUpArrowFunctionWithOptionalParam=(name:string,email:string,age:number,isPaid:boolean=false)=>{
 
 }
@@ -29,6 +36,7 @@ console.log("Arrow function with typed input optional parameter : "+signUpArrowF
 
 console.log("Arrow function with typed input optional complete parameter : "+signUpArrowFunctionWithOptionalParam("Rahul","rahul@bharatkadam.com",31,true))
 
+```
 
 ## Function with Specific Return Type -
 
@@ -40,15 +48,19 @@ console.log("Arrow function with typed input optional complete parameter : "+sig
 
 > For example -> 
 
+```sh
+
+
 function  addTwo(num: number) : number{
     return num+2;
     //  This funciton should always return a number only
 
--    // return "Value is "+num+2
+    // return "Value is "+num+2
 
     // This above line is not the correct return value because it should only return number
 }
 
+```
 ## Arrow Function with Specific Return Type -
 
 > const getTwoAddedVal=(num: number) : number =>{
