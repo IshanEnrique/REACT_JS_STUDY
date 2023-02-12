@@ -4,14 +4,31 @@
 
 ```sh
 
+type cardCVV={
+    cvv: string
+}
 
+type cardDates={
+    from:string
+    to:string
+}
+type cardNumber={
+    cardNo:string
+    cardId:string
+}
+
+type cardDetails={
+    cardNumber: cardNumber
+    cardDates: cardDates
+    cardCVV: cardCVV
+}
 type User={
     readonly _id:string; // Once initialized , this read only can not be re-assigned and its for read only purposes
     name:string;
     email:string;
     age:number;
     isLoggedIn:boolean;
-    cardDetails ?: string // ?: is used to define optional attribute , if you provide then good or else if don't provide then also not any problem
+    cardDetails ?: cardDetails // ?: is used to define optional attribute , if you provide then good or else if don't provide then also not any problem
 }
 
 function createUser(user:User):User{
