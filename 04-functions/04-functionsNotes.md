@@ -28,3 +28,35 @@ let signUpArrowFunctionWithOptionalParam=(name:string,email:string,age:number,is
 console.log("Arrow function with typed input optional parameter : "+signUpArrowFunctionWithOptionalParam("Rahul","rahul@bharatkadam.com",31))
 
 console.log("Arrow function with typed input optional complete parameter : "+signUpArrowFunctionWithOptionalParam("Rahul","rahul@bharatkadam.com",31,true))
+
+
+## Function with Specific Return Type -
+
+- Suppose we are working on some value or doing some calculations which is depending on some other function . So our working or calucation may gone wrong when the function return other type of value than expecting value type. 
+
+- To overcome this problem in TypeScript we can also mention the return type of functions at the of writing one.
+
+- Keep in mind that TypeScript is smart enough to detect the return type on the basis of returning value from the function , But best practice is to mention the function's return type will keep other user's to work on the same type and can be kept more reliable code.
+
+> For example -> 
+
+function  addTwo(num: number) : number{
+    return num+2;
+    //  This funciton should always return a number only
+
+-    // return "Value is "+num+2
+
+    // This above line is not the correct return value because it should only return number
+}
+
+## Arrow Function with Specific Return Type -
+
+> const getTwoAddedVal=(num: number) : number =>{
+    return num+2
+}
+
+## Functions that return never.
+
+> function handleError(err: string) : never{
+    throw new Error(err);
+}
