@@ -110,7 +110,7 @@ function createUser1():{name:string,email:string}{
 }
 
 
-
+export {}
 
 
 
