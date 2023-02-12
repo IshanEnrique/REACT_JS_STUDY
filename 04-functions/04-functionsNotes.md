@@ -63,12 +63,18 @@ function  addTwo(num: number) : number{
 ```
 ## Arrow Function with Specific Return Type -
 
-> const getTwoAddedVal=(num: number) : number =>{
+```sh
+const getTwoAddedVal=(num: number) : number =>{
     return num+2
 }
 
+```
 ## Functions that return never.
 
-> function handleError(err: string) : never{
+```sh
+
+ function handleError(err: string) : never{
     throw new Error(err);
 }
+
+```
