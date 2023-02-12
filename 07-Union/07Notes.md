@@ -80,7 +80,7 @@ data2=[1,"2",3,"4"]
 
 ```
 
-> Literal Assignment - To have only Fixed values and can be only allowed values to be modify
+## Literal Assignment - To have only Fixed values and can be only allowed values to be modify
 
 ```sh
 
