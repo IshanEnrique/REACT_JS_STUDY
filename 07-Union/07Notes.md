@@ -41,7 +41,7 @@ rahul={username:"IshanEnrique0850",id:1992}
 
 ```
 
-> Union of two types in Array
+## Union of two types in Array
 
 - Below data decleration says that it can have the value either and String or array of Numbers . 
 
