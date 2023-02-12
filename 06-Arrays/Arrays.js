@@ -1,3 +1,5 @@
+"use strict";
+exports.__esModule = true;
 var superHeros = [];
 var superPower = [];
 superHeros.push("Thor");
