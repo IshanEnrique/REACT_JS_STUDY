@@ -70,6 +70,9 @@ export {}
 ```sh
 
 class UserWithPublicPrivate2ndWay{
+     private deleteUser(){
+        // ToDo:
+    }
     public showUserDetails(){
         console.log(`{Email : ${this.email} , Name : ${this.name} , Adhar : ${this.aadhar}}`)
     }
@@ -86,5 +89,13 @@ let Rahul1:UserWithPublicPrivate2ndWay=new UserWithPublicPrivate2ndWay("rahul@bh
 Rahul1.showUserDetails();
 
 export {}
+
+```
+
+> Trying to access private mrthod from outside the class is not correct
+
+```sh
+
+Rahul1.deleteUser();
 
 ```

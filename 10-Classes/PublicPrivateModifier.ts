@@ -27,6 +27,9 @@ Rahul.showUserDetails();
 // 2nd way of decleration
 
 class UserWithPublicPrivate2ndWay{
+    private deleteUser(){
+        // ToDo:
+    }
     public showUserDetails(){
         console.log(`{Email : ${this.email} , Name : ${this.name} , Adhar : ${this.aadhar}}`)
     }
@@ -41,5 +44,9 @@ class UserWithPublicPrivate2ndWay{
 
 let Rahul1:UserWithPublicPrivate2ndWay=new UserWithPublicPrivate2ndWay("rahul@bharatkadam.com","Rahul Kumar","2555XXXXXX64")
 Rahul1.showUserDetails();
+
+// Trying to access private mrthod from outside the class is not correct
+
+// Rahul1.deleteUser();
 
 export {}

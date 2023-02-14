@@ -22,6 +22,9 @@ var UserWithPublicPrivate2ndWay = /** @class */ (function () {
         this.name = name;
         this.aadhar = aadhar;
     }
+    UserWithPublicPrivate2ndWay.prototype.deleteUser = function () {
+        // ToDo:
+    };
     UserWithPublicPrivate2ndWay.prototype.showUserDetails = function () {
         console.log("{Email : ".concat(this.email, " , Name : ").concat(this.name, " , Adhar : ").concat(this.aadhar, "}"));
     };
