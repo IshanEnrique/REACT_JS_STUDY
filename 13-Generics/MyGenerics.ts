@@ -40,3 +40,20 @@ interface Bottle{
 let bottle:Bottle={brand:"Rahul",type:"Gym"}
 
 identityFive(bottle);
+
+
+// Functions with Array
+
+function getSearchProducts<T>(products: Array<T>):T{
+    // do some operations
+    let myIndex=3
+    return products[myIndex]
+}
+
+// Arrow Function with Array
+
+const getArrowSearchProducts=<T>(products:Array<T>):T=>{
+     // do some operations
+     let myIndex=3
+     return products[myIndex]
+}

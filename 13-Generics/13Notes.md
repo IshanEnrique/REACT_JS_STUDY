@@ -51,3 +51,54 @@ const numBox = new NumberBox(42);
 console.log(numBox.get()); // outputs 42
 
 ```
+
+
+- Generic in short way any Letter
+
+```sh
+
+function identityFive<H>(val:H) : H{
+    return val;
+}
+
+```
+
+- Custom Type can also passed
+
+```sh
+
+interface Bottle{
+    brand: string,
+    type: string
+}
+
+let bottle:Bottle={brand:"Rahul",type:"Gym"}
+
+identityFive(bottle);
+
+```
+
+
+- Functions with Array
+
+```sh
+
+function getSearchProducts<T>(products: Array<T>):T{
+    // do some operations
+    let myIndex=3
+    return products[myIndex]
+}
+
+```
+
+- Arrow Function with Array
+
+```sh
+
+const getArrowSearchProducts=<T>(products:Array<T>):T=>{
+     // do some operations
+     let myIndex=3
+     return products[myIndex]
+}
+
+```
